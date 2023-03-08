@@ -15,7 +15,7 @@
 		"type": "git",
 		"url": "git+https://github.com/MikhailYandex/mesto-react.git"
 	},
-	"homepage": "https://github.com/MikhailYandex/mesto-react/",
+	"homepage": "https://github.com/MikhailYandex/mesto-react#readme/",
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
