@@ -56,21 +56,29 @@ class Api {
     return this._checkResponse(res);
   }
 
-  async addLike(cardId) {
-    const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
-      method: "PUT",
-      headers: this._headers,
-    });
-    return this._checkResponse(res);
-  }
+	async handleCardLike(cardId, isLiked) {
+		const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
+			method: `${isLiked ? "DELETE" : "PUT"}`,
+      headers: this._headers
+		});
+		return this._checkResponse(res);
+	}
 
-  async removeLike(cardId) {
-    const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
-      method: "DELETE",
-      headers: this._headers,
-    });
-    return this._checkResponse(res);
-  }
+  // async addLike(cardId) {
+  //   const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
+  //     method: "PUT",
+  //     headers: this._headers,
+  //   });
+  //   return this._checkResponse(res);
+  // }
+
+  // async removeLike(cardId) {
+  //   const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
+  //     method: "DELETE",
+  //     headers: this._headers,
+  //   });
+  //   return this._checkResponse(res);
+  // }
 
   async editUserAvatar(data) {
     const res = await fetch(`${this._url}/users/me/avatar`, {
