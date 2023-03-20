@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/mesto-react/static/css/main.6211b41b.css",
-    "main.js": "/mesto-react/static/js/main.9b579296.js",
+    "main.css": "/mesto-react/static/css/main.c53e39a0.css",
+    "main.js": "/mesto-react/static/js/main.7ccf7d95.js",
     "static/js/787.5530211c.chunk.js": "/mesto-react/static/js/787.5530211c.chunk.js",
     "static/media/Inter-Black.ttf": "/mesto-react/static/media/Inter-Black.5bc9c4d5770576fe98af.ttf",
     "static/media/Inter-Regular.ttf": "/mesto-react/static/media/Inter-Regular.96ce55e3ba0d6a209090.ttf",
@@ -18,15 +18,15 @@
     "static/media/delete_icon.svg": "/mesto-react/static/media/delete_icon.ce3b64935accf9b8212e.svg",
     "static/media/blackheart.svg": "/mesto-react/static/media/blackheart.35948469632d0421d697.svg",
     "static/media/EditButton.svg": "/mesto-react/static/media/EditButton.af236f6cf67005f1d7aa.svg",
-    "static/media/pencil.svg": "/mesto-react/static/media/pencil.a086f758840ae814ecde.svg",
+    "static/media/pencil.svg": "/mesto-react/static/media/pencil.ae1a976ddb506239e9f0.svg",
     "static/media/closebutton.svg": "/mesto-react/static/media/closebutton.039f1f5203f653b4bacd.svg",
     "static/media/plus.svg": "/mesto-react/static/media/plus.bed8c136e13907f5eefb.svg",
-    "main.6211b41b.css.map": "/mesto-react/static/css/main.6211b41b.css.map",
-    "main.9b579296.js.map": "/mesto-react/static/js/main.9b579296.js.map",
+    "main.c53e39a0.css.map": "/mesto-react/static/css/main.c53e39a0.css.map",
+    "main.7ccf7d95.js.map": "/mesto-react/static/js/main.7ccf7d95.js.map",
     "787.5530211c.chunk.js.map": "/mesto-react/static/js/787.5530211c.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6211b41b.css",
-    "static/js/main.9b579296.js"
+    "static/css/main.c53e39a0.css",
+    "static/js/main.7ccf7d95.js"
   ]
 }
