@@ -9,6 +9,7 @@ function Card(props) {
 
   //проверяем, есть ли у карточки лайк, поставленный текущим пользователем
   const isLiked = props.card.likes.some((i) => i._id === userData._id);
+
   //переменная для кнопки лайка
   const cardLikeButtonClassName = `element__like ${
     isLiked && "element__like_active"
@@ -22,8 +23,8 @@ function Card(props) {
     props.onCardLike(props.card);
   }
 
-  function handleDeleteClick() {
-    props.onCardDelete(props.card);
+  function handleTrashClick() {
+    props.onTrashClick(props.card);
   }
 
   return (
@@ -32,7 +33,7 @@ function Card(props) {
         <button
           className="element__delete-icon"
           type="button"
-          onClick={handleDeleteClick}
+          onClick={handleTrashClick}
         ></button>
       )}
       <img

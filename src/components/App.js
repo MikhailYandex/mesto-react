@@ -8,12 +8,15 @@ import api from "../utils/api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
 import AddPlacePopup from "./AddPlacePopup";
+import ConfirmationPopup from "./ConfirmationPopup";
 
 function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+	const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false)
+
   const [selectedCard, setSelectedCard] = useState({});
 
   //действующий пользователь
@@ -24,6 +27,16 @@ function App() {
 
 	//карточки, которые нужно удалить
   const [removingCard, setRemovingCard] = useState({});
+
+	//Загрузка данных при клике на кнопку
+	const [isLoadingButton, setisLoadingButton] = useState(false);
+
+  useEffect(() => {
+    api.getCards().then((data) => {
+      setCards(data);
+    })
+		.catch(err => console.log(err));
+  }, []);
 
   //получение действующего профиля
   useEffect(() => {
@@ -44,33 +57,57 @@ function App() {
 			.catch(err => console.log(err))
 	}
 
-	//обработчик удаления карточки
-	function handleCardDelete(card) {
-		api.removeCard(card._id)
-			.then(() => {
-				setCards((cards) => cards.filter((c) => c._id !== card._id));
-			})
-			.catch(err => console.log(err));
-	}
-
 	//отправка новых данных пользователя на сервер
   function handleUpdateUser(data) {
+		setisLoadingButton(true);
     api.editUserInfo(data.name, data.about)
       .then((newData) => {
         setCurrentUser(newData);
         closeAllPopups();
+				setisLoadingButton(false);
       })
       .catch(err => console.log(err));
   }
 
 	//отправка новой аватарки на сервер
   function handleUpdateAvatar(link) {
+		setisLoadingButton(true);
     api.editUserAvatar(link)
       .then((data) => {
         setCurrentUser(data);
         closeAllPopups();
+				setisLoadingButton(false);
       })
       .catch(err => console.log(err));
+  }
+
+	//добавление новой карточки из формы
+  function handleAddPlaceSubmit(data) {
+		setisLoadingButton(true);
+    api.addCard(data)
+      .then((newCard) => {
+        setCards([newCard, ...cards]);
+        closeAllPopups();
+				setisLoadingButton(false);
+      })
+      .catch(err => console.log(err));
+  }
+
+	//обработчик удаления карточки
+	function handleCardDelete() {
+		setisLoadingButton(true);
+		api.removeCard(removingCard._id)
+			.then(() => {
+				setCards((cards) => cards.filter((c) => c._id !== removingCard._id));
+				closeAllPopups();
+				setisLoadingButton(false);
+			})
+			.catch(err => console.log(err));
+	}
+
+	function handleCardDeleteClick(card) {
+		setIsConfirmationPopupOpen(true);
+		setRemovingCard(card);
   }
 
   function handleCardClick(data) {
@@ -95,6 +132,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsImagePopupOpen(false);
+		setIsConfirmationPopupOpen(false);
     setSelectedCard({});
   }
 
@@ -108,7 +146,8 @@ function App() {
 					onEditAvatar={handleEditAvatarClick}
 					onCardClick={handleCardClick}
 					onCardLike={handleCardLike}
-					onCardDelete={handleCardDelete}
+					onTrashClick={handleCardDeleteClick}
+					cards={cards}
 				/>
 				<Footer />
 
@@ -116,12 +155,14 @@ function App() {
 					isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}
           onUpdateUser={handleUpdateUser}
+					buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
 				></EditProfilePopup>
 
 				<AddPlacePopup
 					isOpen={isAddPlacePopupOpen}
 					onClose={closeAllPopups}
-					// onAddPlace={handleAddPlaceSubmit}
+					onAddPlace={handleAddPlaceSubmit}
+					buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
 				>
 				</AddPlacePopup>
 
@@ -129,6 +170,7 @@ function App() {
 					isOpen={isEditAvatarPopupOpen}
           onClose={closeAllPopups}
           onUpdateAvatar={handleUpdateAvatar}
+					buttonText = {isLoadingButton ? 'Сохранение...' : 'Сохранить'}
 				>
 				</EditAvatarPopup>
 
@@ -138,15 +180,12 @@ function App() {
 					isOpen={isImagePopupOpen}
 				></ImagePopup>
 
-				{/* <PopupWithForm
+				<ConfirmationPopup
 					isOpen={isConfirmationPopupOpen}
-					title={"Вы уверены?"}
-					buttonText={"Да"}
-					name={"confirm"}
-					nameOfForm={"popup__form_confirm"}
 					onClose={closeAllPopups}
-					onDeleteCard={handleCardDelete}
-				></PopupWithForm> */}
+					onCardDelete={handleCardDelete}
+					buttonText = {isLoadingButton ? 'Удаление...' : 'Да'}
+				></ConfirmationPopup>
 			</div>
 		</CurrentUserContext.Provider>
   );

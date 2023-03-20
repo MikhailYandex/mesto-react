@@ -9,9 +9,9 @@ const EditProfilePopup = (props) => {
   const [description, setDescription] = useState("");
 
 	useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser, props.isOpen]);
+    setName(currentUser.name || "");
+    setDescription(currentUser.about || "");
+  }, [currentUser]);
 
 	function handleSubmit(e) {
     e.preventDefault();
@@ -23,8 +23,10 @@ const EditProfilePopup = (props) => {
 			isOpen={props.isOpen}
 			title={"Редактировать профиль"}
 			name={"edit"}
-			buttonText={"Сохранить"}
+			buttonText={props.buttonText}
 			nameOfForm={"edit"}
+			container={''}
+			titleClass={''}
 			onClose={props.onClose}
 			onSubmit={handleSubmit}
 		>

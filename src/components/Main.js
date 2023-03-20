@@ -1,18 +1,9 @@
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import api from "../utils/api.js";
 import Card from "./Card.js";
 
 function Main(props) {
   const userData = useContext(CurrentUserContext);
-
-  const [cards, setCards] = useState([]);
-
-  useEffect(() => {
-    api.getCards().then((data) => {
-      setCards(data);
-    })
-  }, []);
 
   return (
     <main>
@@ -45,13 +36,13 @@ function Main(props) {
         ></button>
       </section>
       <section className="elements">
-        {cards.map((card) => (
+        {props.cards.map((card) => (
           <Card
             key={card._id}
             card={card}
             onCardClick={props.onCardClick}
             onCardLike={props.onCardLike}
-						onCardDelete={props.onCardDelete}
+						onTrashClick={props.onTrashClick}
           />
         ))}
       </section>

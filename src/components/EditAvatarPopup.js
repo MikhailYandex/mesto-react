@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 const EditAvatarPopup = (props) => {
@@ -16,10 +16,12 @@ const EditAvatarPopup = (props) => {
       isOpen={props.isOpen}
       title={"Обновить аватар"}
       name={"avatar"}
-      buttonText={"Сохранить"}
+      buttonText={props.buttonText}
       nameOfForm={"avatar"}
+			container={'-avatar'}
       onClose={props.onClose}
 			onSubmit={handleSubmit}
+			titleClass={'-avatar'}
     >
       <input
         type="url"

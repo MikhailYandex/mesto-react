@@ -1,6 +1,22 @@
-import React from "react";
+import { useEffect } from "react";
 
 function ImagePopup(props) {
+	//закрытие по клавише Escape
+  function closeByEscape(e) {
+    if (e.key === "Escape") {
+      props.onClose();
+    }
+  }
+	
+  useEffect(() => {
+    if (props.isOpen) {
+      document.addEventListener("keydown", closeByEscape);
+      return () => {
+        document.removeEventListener("keydown", closeByEscape);
+      };
+    }
+  }, [props.isOpen]);
+
   return (
     <div
       className={`popup popup_type_image ${props.isOpen ? "popup_opened" : ""}`}
