@@ -40,7 +40,7 @@ function PopupWithForm(props) {
           onSubmit={props.onSubmit}
         >
           {props.children}
-          <button type="submit" className="popup__button">
+          <button type="submit" disabled={props.isDisabled} className={`popup__button ${props.isDisabled && "popup__button_disabled"}`}>
             {props.buttonText || "Сохранить"}
           </button>
         </form>
