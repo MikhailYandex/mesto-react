@@ -1,26 +1,26 @@
 import { useEffect } from "react";
 
-function ImagePopup(props) {
-	//закрытие по клавише Escape
+function ImagePopup({ isOpen, onClose, card }) {
+  //закрытие по клавише Escape
   function closeByEscape(e) {
     if (e.key === "Escape") {
-      props.onClose();
+      onClose();
     }
   }
-	
+
   useEffect(() => {
-    if (props.isOpen) {
+    if (isOpen) {
       document.addEventListener("keydown", closeByEscape);
       return () => {
         document.removeEventListener("keydown", closeByEscape);
       };
     }
-  }, [props.isOpen]);
+  }, [isOpen]);
 
   return (
     <div
-      className={`popup popup_type_image ${props.isOpen ? "popup_opened" : ""}`}
-      onClick={props.onClose}
+      className={`popup popup_type_image ${isOpen ? "popup_opened" : ""}`}
+      onClick={onClose}
     >
       <div
         className={`popup__container-image`}
@@ -29,15 +29,11 @@ function ImagePopup(props) {
         <button
           className="popup__close"
           type="button"
-          onClick={props.onClose}
+          onClick={onClose}
         ></button>
         <figure className="popup__figure">
-          <img
-            src={props.card.link}
-            className="popup__image"
-            alt={props.card.name}
-          />
-          <figcaption className="popup__caption">{props.card.name}</figcaption>
+          <img src={card.link} className="popup__image" alt={card.name} />
+          <figcaption className="popup__caption">{card.name}</figcaption>
         </figure>
       </div>
     </div>

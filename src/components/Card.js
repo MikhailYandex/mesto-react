@@ -1,14 +1,14 @@
 import { useContext } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
-function Card(props) {
+function Card({ card, onCardClick, onCardLike, onTrashClick }) {
   const userData = useContext(CurrentUserContext);
 
   //проверка собственник ли карточки
-  const isOwner = props.card.owner._id === userData._id;
+  const isOwner = card.owner._id === userData._id;
 
   //проверяем, есть ли у карточки лайк, поставленный текущим пользователем
-  const isLiked = props.card.likes.some((i) => i._id === userData._id);
+  const isLiked = card.likes.some((i) => i._id === userData._id);
 
   //переменная для кнопки лайка
   const cardLikeButtonClassName = `element__like ${
@@ -16,15 +16,15 @@ function Card(props) {
   }`;
 
   function handleClick() {
-    props.onCardClick(props.card);
+    onCardClick(card);
   }
 
   function handleLikeClick() {
-    props.onCardLike(props.card);
+    onCardLike(card);
   }
 
   function handleTrashClick() {
-    props.onTrashClick(props.card);
+    onTrashClick(card);
   }
 
   return (
@@ -37,20 +37,20 @@ function Card(props) {
         ></button>
       )}
       <img
-        src={props.card.link}
+        src={card.link}
         className="element__photo"
-        alt={props.card.name}
+        alt={card.name}
         onClick={handleClick}
       />
       <div className="element__group">
-        <h2 className="element__text">{props.card.name}</h2>
+        <h2 className="element__text">{card.name}</h2>
         <div className="element__like-block">
           <button
             type="button"
             className={cardLikeButtonClassName}
             onClick={handleLikeClick}
           ></button>
-          <p className="element__like-counter">{props.card.likes.length}</p>
+          <p className="element__like-counter">{card.likes.length}</p>
         </div>
       </div>
     </article>

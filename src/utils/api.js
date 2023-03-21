@@ -11,66 +11,61 @@ class Api {
     return Promise.reject(`${res.status}: ${res.statusText}`);
   }
 
-  async getUserInfo() {
-    const res = await fetch(`${this._url}/users/me`, {
-      method: "GET",
-      headers: this._headers,
-    });
-    return this._checkResponse(res);
+	_request(url, options) {
+    return fetch(url, options).then(this._checkResponse)
   }
 
-  async getCards() {
-    const res = await fetch(`${this._url}/cards`, {
-      method: "GET",
-      headers: this._headers,
-    });
-    return this._checkResponse(res);
+	getUserInfo() {
+    return this._request(`${this._url}/users/me`, {
+      headers: this._headers
+    })
   }
 
-  async editUserInfo(newName, newAbout) {
-    const res = await fetch(`${this._url}/users/me`, {
-      method: "PATCH",
+	getCards() {
+    return this._request(`${this._url}/cards`, {
+      headers: this._headers
+    })
+  }
+
+	editUserInfo(newName, newAbout) {
+    return this._request(`${this._url}/users/me`, {
+      method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
         name: newName,
         about: newAbout,
-      }),
-    });
-    return this._checkResponse(res);
+      })
+    })
   }
 
-  async addCard(data) {
-    const res = await fetch(`${this._url}/cards`, {
-      method: "POST",
+	addCard(data) {
+    return this._request(`${this._url}/cards`, {
+      method: 'POST',
       headers: this._headers,
       body: JSON.stringify(data),
-    });
-    return this._checkResponse(res);
+    })
   }
 
-  async removeCard(cardId) {
-    const res = await fetch(`${this._url}/cards/${cardId}`, {
-      method: "DELETE",
+	removeCard(cardId) {
+    return this._request(`${this._url}/cards/${cardId}`, {
+      method: 'DELETE',
       headers: this._headers,
-    });
-    return this._checkResponse(res);
+    })
   }
 
-	async handleCardLike(cardId, isLiked) {
-		const res = await fetch(`${this._url}/cards/${cardId}/likes`, {
-			method: `${isLiked ? "DELETE" : "PUT"}`,
-      headers: this._headers
-		});
-		return this._checkResponse(res);
-	}
+  handleCardLike(cardId, isLiked) {
+    return this._request(`${this._url}/cards/${cardId}/likes`, {
+      method: `${isLiked ? "DELETE" : "PUT"}`,
+      headers: this._headers,
+    })
+  }
 
-  async editUserAvatar(data) {
-    const res = await fetch(`${this._url}/users/me/avatar`, {
+  editUserAvatar(data) {
+    return this._request(`${this._url}/users/me/avatar`, {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify(data),
-    });
-    return this._checkResponse(res);
+    })
   }
 }
 

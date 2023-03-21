@@ -1,47 +1,63 @@
 import { useEffect } from "react";
 
-function PopupWithForm(props) {
+function PopupWithForm({
+  isOpen,
+  onClose,
+  name,
+  title,
+  titleClass,
+  container,
+  nameOfForm,
+  onSubmit,
+  children,
+  isDisabled,
+  buttonText,
+}) {
   //закрытие по клавише Escape
   function closeByEscape(e) {
     if (e.key === "Escape") {
-      props.onClose();
+      onClose();
     }
   }
-	
+
   useEffect(() => {
-    if (props.isOpen) {
+    if (isOpen) {
       document.addEventListener("keydown", closeByEscape);
       return () => {
         document.removeEventListener("keydown", closeByEscape);
       };
     }
-  }, [props.isOpen]);
+  }, [isOpen]);
 
   return (
     <div
-      className={`popup popup_type_${props.name} ${
-        props.isOpen ? "popup_opened" : ""
-      }`}
-      onClick={props.onClose}
+      className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}
+      onClick={onClose}
     >
       <div
-        className={`popup__container${props.container}`}
+        className={`popup__container${container}`}
         onClick={(e) => e.stopPropagation()}
       >
         <button
           type="button"
           className="popup__close"
-          onClick={props.onClose}
-        ></button>
-        <h2 className={`popup__title${props.titleClass}`}>{props.title}</h2>
+          onClick={onClose}
+        />
+        <h2 className={`popup__title${titleClass}`}>{title}</h2>
         <form
-          className={`popup__form popup__form_${props.nameOfForm}`}
+          className={`popup__form popup__form_${nameOfForm}`}
           noValidate
-          onSubmit={props.onSubmit}
+          onSubmit={onSubmit}
         >
-          {props.children}
-          <button type="submit" disabled={props.isDisabled} className={`popup__button ${props.isDisabled && "popup__button_disabled"}`}>
-            {props.buttonText || "Сохранить"}
+          {children}
+          <button
+            type="submit"
+            disabled={isDisabled}
+            className={`popup__button ${
+              isDisabled && "popup__button_disabled"
+            }`}
+          >
+            {buttonText || "Сохранить"}
           </button>
         </form>
       </div>

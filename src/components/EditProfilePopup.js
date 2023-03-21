@@ -3,66 +3,84 @@ import { useContext, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
 import useFormWithValidation from "../hooks/useFormWithValidation";
 
-const EditProfilePopup = (props) => {
-	const {values, handleChange, errors, isValid, setIsValid, resetForm} = useFormWithValidation();
+const EditProfilePopup = ({ isOpen, onUpdateUser, onClose, buttonText }) => {
+  const { values, handleChange, errors, isValid, setIsValid, resetForm } =
+    useFormWithValidation();
 
-	const currentUser = useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
-	useEffect(() => {
+  useEffect(() => {
     if (currentUser) {
       resetForm({
         name: currentUser.name,
-        text: currentUser.about});
+        text: currentUser.about,
+      });
       setIsValid(true);
     }
-  }, [currentUser, resetForm, setIsValid, props.isOpen]);
+  }, [currentUser, resetForm, setIsValid, isOpen]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    props.onUpdateUser({
-      name: values.name || '',
-      about: values.text || '',
+    onUpdateUser({
+      name: values.name || "",
+      about: values.text || "",
     });
-  };
+  }
 
   return (
     <PopupWithForm
-			isOpen={props.isOpen}
-			title={"Редактировать профиль"}
-			name={"edit"}
-			buttonText={props.buttonText}
-			nameOfForm={"edit"}
-			container={''}
-			titleClass={''}
-			onClose={props.onClose}
-			onSubmit={handleSubmit}
-			isDisabled={!isValid}
-		>
+      isOpen={isOpen}
+      title={"Редактировать профиль"}
+      name={"edit"}
+      buttonText={buttonText}
+      nameOfForm={"edit"}
+      container={""}
+      titleClass={""}
+      onClose={onClose}
+      onSubmit={handleSubmit}
+      isDisabled={!isValid}
+    >
       <input
         type="text"
-        className={`popup__input popup__input_name ${errors.name && "popup__input_type_error"}`}
+        className={`popup__input popup__input_name ${
+          errors.name && "popup__input_type_error"
+        }`}
         placeholder="Имя"
         required
         minLength="2"
         maxLength="40"
         name="name"
-				value={values.name || ''}
-				onChange={handleChange}
+        value={values.name || ""}
+        onChange={handleChange}
       ></input>
-			<span className={`name-error popup__input-error ${errors.name && "popup__input-error_active"}`}>{errors.name || ''}</span>
+      <span
+        className={`name-error popup__input-error ${
+          errors.name && "popup__input-error_active"
+        }`}
+      >
+        {errors.name || ""}
+      </span>
       <input
         type="text"
-				className={`popup__input popup__input_text ${errors.text && "popup__input_type_error"}`}
+        className={`popup__input popup__input_text ${
+          errors.text && "popup__input_type_error"
+        }`}
         placeholder="О себе"
         required
         minLength="2"
         maxLength="200"
         name="text"
-				value={values.text || ''}
-				onChange={handleChange}
+        value={values.text || ""}
+        onChange={handleChange}
       ></input>
-			<span className={`text-error popup__input-error ${errors.text && "popup__input-error_active"}`}>{errors.text || ''}</span>
+      <span
+        className={`text-error popup__input-error ${
+          errors.text && "popup__input-error_active"
+        }`}
+      >
+        {errors.text || ""}
+      </span>
     </PopupWithForm>
   );
 };
